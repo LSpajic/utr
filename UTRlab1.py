@@ -28,7 +28,22 @@ def main():
 
         next_states = [s.strip() for s in right.split(',')]
         states[(current,symbol)] = next_states
+    print("--------------------")
 
+    currState = []
+    currState.append(start_state)
+    tmpState = []
+    for transitionVariable in input_strings[2]:
+        for state in currState:
+            tmpState = tmpState + getNextStates(state, transitionVariable, states)
+            if tmpState == ['#']:
+                tmpState = []
+            currState = tmpState
+            tmpState = []
+            print(currState)
+        
+            
+    print("--------------------")
     print("--------------------")
     print(input_strings)
     print(states_line)
@@ -56,7 +71,9 @@ def getNextStates(current, symbol, states):
     if (current, symbol) in states.keys():
         a = states[(current, symbol)]
         try:
-            a = a + states[(a[0], '$')] 
+            for parts in a:
+                if (parts, '$') in states.keys():
+                    a = a + states[(parts, '$')] 
         finally:
             return a
     return ['#']
