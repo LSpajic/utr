@@ -16,9 +16,7 @@ def main():
     alphabet_line = lines[2].split(',')
     accepting_states_line = lines[3].split(',') 
     start_state = lines[4].strip() 
-
-    transitions = []
-    print(lines[5:])
+    
 
     for line in lines[5:]:
         line = line.strip()
@@ -29,12 +27,8 @@ def main():
         current = current.strip()
 
         next_states = [s.strip() for s in right.split(',')]
-        transitions.append(((current, symbol), next_states))
         states[(current,symbol)] = next_states
 
-    #for results in states_line:
-    #    for transitionVariable in results:
-    
     print("--------------------")
     print(input_strings)
     print(states_line)
@@ -43,10 +37,29 @@ def main():
     print(start_state)
     print("Transitions:")
     print(states)
+    print("--------------------")
+    print(getNextStates('stanje1', 'a', states))
 
-
-#def getNextStates(current, symbol, transitions):
+    nextStates = []
+    print(states_line)
+    print("----------------")
     
+
+    #for results in states_line:
+    #    for transitionVariable in results:
+    #
+
+
+
+def getNextStates(current, symbol, states):
+    
+    if (current, symbol) in states.keys():
+        a = states[(current, symbol)]
+        try:
+            a = a + states[(a[0], '$')] 
+        finally:
+            return a
+    return ['#']
 
 if __name__ == main():
     main()
