@@ -6,9 +6,6 @@ states = {}
 def main():
     lines = [line.rstrip('\n') for line in sys.stdin]
 
-    if not lines:
-        return
-
     input_strings_line = lines[0].split('|')
     input_strings = [s.split(',') if s else [] for s in input_strings_line]
 
@@ -33,7 +30,7 @@ def main():
     currState = []
     currState.append(start_state)
     tmpState = []
-    for transitionVariable in input_strings[2]:
+    for transitionVariable in input_strings[3]:
         for state in currState:
             tmpState = tmpState + getNextStates(state, transitionVariable, states)
             if tmpState == ['#']:
@@ -66,7 +63,7 @@ def main():
 
 
 
-def getNextStates(current, symbol, states):
+def getNextStates(current, symbol, states):# nadodaj rekurziju ovo radi samo za dubinu 1!!!!
     
     if (current, symbol) in states.keys():
         a = states[(current, symbol)]
