@@ -24,56 +24,84 @@ def main():
         current = current.strip()
 
         next_states = [s.strip() for s in right.split(',')]
-        states[(current,symbol)] = next_states
-    print("--------------------")
-
-    currState = []
-    currState.append(start_state)
-    tmpState = []
-    for transitionVariable in input_strings[3]:
-        for state in currState:
-            tmpState = tmpState + getNextStates(state, transitionVariable, states)
-            if tmpState == ['#']:
-                tmpState = []
+        if next_states != ['#']:
+            states[(current,symbol)] = next_states
+    #print("--------------------")
+    for input_string in input_strings:
+        currState = []
+        currState += getEpsilonClosure(start_state, states)
+        tmpState = []
+        output = []
+        output.append(formatOutput(currState))
+        #print(formatOutput(currState), end='')
+        for transVariable in input_string:
+            #print(transVariable)
+            for state in currState:
+                tmpState += getNextStates(state, transVariable, states)
             currState = tmpState
             tmpState = []
-            print(currState)
+
+            output.append(formatOutput(currState))
+                #print(formatOutput(currState), end='')
+        print(formatFinalOutput(output))
+
         
             
-    print("--------------------")
-    print("--------------------")
-    print(input_strings)
-    print(states_line)
-    print(alphabet_line)
-    print(accepting_states_line)
-    print(start_state)
-    print("Transitions:")
-    print(states)
-    print("--------------------")
-    print(getNextStates('stanje1', 'a', states))
+    #print("--------------------")
+    #print("--------------------")
+    #print(input_strings)
+    #print(states_line)
+    #print(alphabet_line)
+    #print(accepting_states_line)
+    #print(start_state)
+    #print("Transitions:")
+    #print(states)
+    #print("--------------------")
+    #print(getNextStates('stanje1', 'a', states))
 
-    nextStates = []
-    print(states_line)
-    print("----------------")
+    #nextStates = []
+    #print(states_line)
+    #print("----------------")
     
 
     #for results in states_line:
     #    for transitionVariable in results:
-    #
+    #)
+    #print(getNextStates('stanje1', 'a', states))
 
-
-
-def getNextStates(current, symbol, states):# nadodaj rekurziju ovo radi samo za dubinu 1!!!!
+def getEpsilonClosure(current, states):
+    epsilonClosure = []
+    epsilonClosure.append(current)
+    tmpState = []
+    for state in epsilonClosure:
+        if (state, '$') in states:
+            tmpState = states[(state, '$')]
+            for newState in tmpState:
+                if newState not in epsilonClosure:
+                    epsilonClosure.append(newState)
+    return epsilonClosure
     
-    if (current, symbol) in states.keys():
-        a = states[(current, symbol)]
-        try:
-            for parts in a:
-                if (parts, '$') in states.keys():
-                    a = a + states[(parts, '$')] 
-        finally:
-            return a
-    return ['#']
+def getNextStates(current, transitionVariable, states):
+    nextStates = []
+    if (current, transitionVariable) in states:
+        nextStates = states[(current, transitionVariable)]
+        for state in nextStates:
+            epsilonClosure = getEpsilonClosure(state, states)
+            for newState in epsilonClosure:
+                if newState not in nextStates:
+                    nextStates.append(newState)
+    if not nextStates:
+        return []
+    return nextStates
+
+def formatOutput(states):
+    if states == []:
+        return '#'
+    states = list(set(states))
+    states.sort()
+    return ','.join(states)
+def formatFinalOutput(StatesArr):
+    return '|'.join(StatesArr)
 
 if __name__ == main():
     main()
