@@ -42,12 +42,16 @@ def main():
         for transVariable in input_string:
             #print(transVariable)
             for state in currState:
-                tmpState += getNextStates(state, transVariable, states)
+                #tmpState += getNextStates(state, transVariable, states)
+                Nstates = getNextStates(state, transVariable, states)
+                for nst in Nstates:
+                    if nst not in tmpState:
+                        tmpState.append(nst)
             currState = tmpState
             tmpState = []
             if currState == []:
                 currState = ['#']
-            currState = list(set(currState))
+            #currState = list(set(currState))
             currState.sort()
 
             output.append(formatOutput(currState))
@@ -79,12 +83,13 @@ def main():
     #print(getNextStates('stanje1', 'a', states))
 
 def getEpsilonClosure(current, states):
-    epsilonClosure = []
-    epsilonClosure.append(current)
+    epsilonClosure = [current]
     tmpState = []
     for state in epsilonClosure:
         if (state, '$') in states:
             tmpState = states[(state, '$')]
+            #if tmpState not in epsilonClosure:
+            #    epsilonClosure.append(tmpState)
             for newState in tmpState:
                 if newState not in epsilonClosure:
                     epsilonClosure.append(newState)
@@ -114,5 +119,5 @@ def formatOutput(states):
 def formatFinalOutput(StatesArr):
     return '|'.join(StatesArr)
 
-if __name__ == main():
+if __name__ == "__main__":
     main()

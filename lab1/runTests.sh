@@ -19,7 +19,7 @@ do
             echo -e "Test $i: ${GREEN}PASSED${NC}"
             n=$n+1
         else
-            echo "Test $i: ${RED}FAILED${NC}"
+            echo -e "Test $i: ${RED}FAILED${NC}"
         fi
     else
         echo "Test $i: Input or expected output file not found."
