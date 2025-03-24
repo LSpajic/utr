@@ -2,6 +2,7 @@ import sys
 from collections import defaultdict
 
 states = {}
+epsilonClosures = {}
 
 def main():
     lines = [line.rstrip('\n') for line in sys.stdin]
@@ -26,6 +27,13 @@ def main():
         next_states = [s.strip() for s in right.split(',')]
         if next_states != ['#']:
             states[(current,symbol)] = next_states
+
+
+    #calculate Epsilon Closure for each state and put it in a dict
+    for state in states_line:
+        epsilonClosures[state] = genEpsilonClosure(state)
+    
+    
     #
     # Uzet input
     # krece parsiranje
@@ -33,8 +41,7 @@ def main():
     #print("--------------------")
     for input_string in inputStrings:
         currState = []
-        currState += getEpsilonClosure(startState, states)
-        currState.sort()
+        currState += getEpsilonClosure(startState)
         tmpState = []
         output = []
         output.append(formatOutput(currState))
@@ -43,7 +50,7 @@ def main():
             #print(transVariable)
             for state in currState:
                 #tmpState += getNextStates(state, transVariable, states)
-                Nstates = getNextStates(state, transVariable, states)
+                Nstates = getNextStates(state, transVariable)
                 for nst in Nstates:
                     if nst not in tmpState:
                         tmpState.append(nst)
@@ -81,8 +88,15 @@ def main():
     #    for transitionVariable in results:
     #)
     #print(getNextStates('stanje1', 'a', states))
+        
+def getEpsilonClosure(current):
+    if current in epsilonClosures:
+        return epsilonClosures[current]
+    else:
+        return []
 
-def getEpsilonClosure(current, states):
+
+def genEpsilonClosure(current):
     epsilonClosure = [current]
     tmpState = []
     for state in epsilonClosure:
@@ -93,9 +107,10 @@ def getEpsilonClosure(current, states):
             for newState in tmpState:
                 if newState not in epsilonClosure:
                     epsilonClosure.append(newState)
+    epsilonClosure.sort()
     return epsilonClosure
     
-def getNextStates(current, transitionVariable, states):
+def getNextStates(current, transitionVariable):
     nextStates = []
     newStates2 = []
     if (current, transitionVariable) in states:
@@ -104,7 +119,7 @@ def getNextStates(current, transitionVariable, states):
             if state not in newStates2:
                 newStates2.append(state)
         for state in newStates2:
-            epsilonClosure = getEpsilonClosure(state, states)
+            epsilonClosure = getEpsilonClosure(state)
             for newState in epsilonClosure:
                 if newState not in nextStates:
                     nextStates.append(newState)
