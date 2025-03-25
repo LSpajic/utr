@@ -42,7 +42,8 @@ def main():
     for input_string in inputStrings:
         currState = []
         currState += getEpsilonClosure(startState)
-        tmpState = []
+        currState.sort()
+        tmpState = []   
         output = []
         output.append(formatOutput(currState))
         #print(formatOutput(currState), end='')
@@ -107,7 +108,6 @@ def genEpsilonClosure(current):
             for newState in tmpState:
                 if newState not in epsilonClosure:
                     epsilonClosure.append(newState)
-    epsilonClosure.sort()
     return epsilonClosure
     
 def getNextStates(current, transitionVariable):
