@@ -21,9 +21,8 @@ def main():
         current, symbol = left.split(',', 1)
         symbol = symbol.strip()
         current = current.strip()
-
-        next_states = [s.strip() for s in right.split(',')]
-        states[(current,symbol)] = set(next_states)
+        states[(current,symbol)] = right
+    print(states)
 
     reachable_states = {startState}
     new_states = {startState}
@@ -33,8 +32,8 @@ def main():
         for state in new_states:
             for transtion in alphabet_line:
                 if (state, transtion) in states.keys():
-                    temp = temp.union(states[(state, transtion)])
-            print(temp)
+                    temp.add(states[(state, transtion)])
+            #print(temp)
 
         new_states = temp - reachable_states
         reachable_states = reachable_states.union(new_states)
@@ -45,8 +44,10 @@ def main():
             temp = temp.union(states[(state, transtion)])
     new_states = temp - reachable_states
     reachable_states = reachable_states.union(new_states)
-    print("Tu sam")
+    #print("Tu sam")
     print(reachable_states)
+
+
 
 if(__name__ == "__main__"):
     main()
