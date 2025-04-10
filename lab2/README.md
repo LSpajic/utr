@@ -4,7 +4,8 @@
 
 
 Pseudo code for finding reachable states:
-`let reachable_states := {q0}
+```
+let reachable_states := {q0}
 let new_states := {q0}
 
 do {
@@ -16,4 +17,5 @@ do {
     reachable_states := reachable_states ∪ new_states
 } while (new_states ≠ the empty set)
 
-unreachable_states := Q \ reachable_states`
+unreachable_states := Q \ reachable_states
+```

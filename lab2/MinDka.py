@@ -2,15 +2,22 @@ import sys
 from collections import defaultdict
 
 states = {}
-epsilonClosures = {}
 
 def main():
     lines = [line.rstrip('\n') for line in sys.stdin]
 
 
     states_line = lines[0].split(',')
+    SetStates = set(states_line)
+
     alphabet_line = lines[1].split(',')
+    alphabet = set(alphabet_line)
+
     accepting_states_line = lines[2].split(',') 
+    accepting_states = set(accepting_states_line)
+
+    not_accepting_states = SetStates - accepting_states
+
     startState = lines[3].strip() 
     
 
@@ -22,11 +29,12 @@ def main():
         symbol = symbol.strip()
         current = current.strip()
         states[(current,symbol)] = right
-    print(states)
+    #print(states)
 
     reachable_states = {startState}
     new_states = {startState}
 
+    
     while (new_states != set([])):
         temp = set([])
         for state in new_states:
@@ -45,8 +53,32 @@ def main():
     new_states = temp - reachable_states
     reachable_states = reachable_states.union(new_states)
     #print("Tu sam")
-    print(reachable_states)
+    accepting_states = accepting_states.intersection(reachable_states)
+    not_accepting_states = not_accepting_states.intersection(reachable_states)
+    statesgroups = [accepting_states, not_accepting_states]
 
+    states2 = {}
+
+    for state in reachable_states:
+        for transtion in alphabet_line:
+            if (state, transtion) in states.keys():
+                if states[(state, transtion)] not in accepting_states:
+                    states2[(state, transtion)] = None
+                else:
+                    states2[(state, transtion)] = states[(state, transtion)]
+            
+            else:
+                states2[(state, transtion)] = None
+    
+    #metoda tablice
+    #prvo ziceri (dva stanja ne mogu bit istovjetni ako su razliciti po prihvatljivosti)
+    temp = set([])
+    for group in statesgroups:
+        for first in range(0, len(group)):
+            for second in range(i+1, len(group)):
+                pass  
+
+    
 
 
 if(__name__ == "__main__"):
