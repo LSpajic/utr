@@ -2,7 +2,56 @@ import sys
 from collections import defaultdict
 
 states = {}
+AllTranstions = {}
+alphabet_line = []
+isAccepting = {}
 
+def getGroups(group1, group2, accepting_states, not_accepting_states):
+    temp = set([])
+
+def isMaybeSame(state1, state2,accepting_states, not_accepting_states):
+    if AllTranstions[state1] == AllTranstions[state2]:
+        print("ISTI")
+        return True
+    print("AllTranstions[state1][i]", AllTranstions[state1])
+    print("AllTranstions[state2][i]", AllTranstions[state2])
+    for i in range(0,len(AllTranstions[state1])):
+        print(not_accepting_states)
+        if AllTranstions[state1][i] in not_accepting_states and AllTranstions[state2][i] in not_accepting_states:
+            continue
+        elif AllTranstions[state1][i] in accepting_states and AllTranstions[state2][i] in not_accepting_states:
+            return False
+        elif AllTranstions[state1][i] in not_accepting_states and AllTranstions[state2][i] in accepting_states:
+            return False
+        if AllTranstions[state1][i] in accepting_states and AllTranstions[state2][i] in accepting_states:
+            continue
+        else:
+            return False
+    return True
+
+def returnGroups(state1, groups):
+    a = []
+    for state in AllTranstions[state1]:
+        for i in range(0, len(groups)):
+            if state in groups[i]:
+                a.append(i)
+
+    return a
+
+def isNotSame(state1, state2, groups):
+    print("state1", state1)
+    print("state2", state2)
+    print("groups", groups)
+    print("AllTranstions[state1]", AllTranstions[state1])
+    print("AllTranstions[state2]", AllTranstions[state2])
+
+    a1 = []
+    a2 = []
+    a1 = returnGroups(state1, groups)
+    a2 = returnGroups(state2, groups)
+    if a1 != a2:
+        return True
+    return False
 def main():
     lines = [line.rstrip('\n') for line in sys.stdin]
 
@@ -11,7 +60,6 @@ def main():
     SetStates = set(states_line)
 
     alphabet_line = lines[1].split(',')
-    alphabet = set(alphabet_line)
 
     accepting_states_line = lines[2].split(',') 
     accepting_states = set(accepting_states_line)
@@ -58,25 +106,49 @@ def main():
     statesgroups = [accepting_states, not_accepting_states]
 
     states2 = {}
-
-    for state in reachable_states:
-        for transtion in alphabet_line:
-            if (state, transtion) in states.keys():
-                if states[(state, transtion)] not in accepting_states:
-                    states2[(state, transtion)] = None
-                else:
-                    states2[(state, transtion)] = states[(state, transtion)]
-            
-            else:
-                states2[(state, transtion)] = None
     
+    for state in reachable_states:
+        AllTranstions[state] = []
+        for transtion in alphabet_line:
+            AllTranstions[state].append(states[(state, transtion)])
+    print(AllTranstions)
+            #print("-------")
+    print("accepting states")    
+    for state in accepting_states:
+        print(state, "->", AllTranstions[state])
+    print("not accepting states")    
+    for state in not_accepting_states:
+        print(state, "->", AllTranstions[state])
+    listaaa = []
+    temp = []
+    acs = list(accepting_states)
+    print(acs)
+    print("accepting states", accepting_states)
+    print("not accepting states", not_accepting_states)
+    for i in range(0, len(accepting_states)):
+        for j in range(i+1, len(accepting_states)):
+            if not isNotSame(acs[i], acs[j], [accepting_states, not_accepting_states]):
+                print(acs[i], acs[j])
+                temp.append(acs[i])
+                temp.append(acs[j])
+                listaaa.append(temp)
+                temp = []
+
+    ncs = list(not_accepting_states)
+    for i in range(0, len(not_accepting_states)):
+        for j in range(i+1, len(not_accepting_states)):
+            if not isNotSame(ncs[i], ncs[j], [accepting_states, not_accepting_states]):
+                print("ncs:",ncs[i], ncs[j])
+                temp.append(ncs[i])
+                temp.append(ncs[j])
+                listaaa.append(temp)
+                temp = []
+    print("LISTA")
+    print(listaaa)
+
     #metoda tablice
-    #prvo ziceri (dva stanja ne mogu bit istovjetni ako su razliciti po prihvatljivosti)
-    temp = set([])
-    for group in statesgroups:
-        for first in range(0, len(group)):
-            for second in range(i+1, len(group)):
-                pass  
+    #prvo zic3eri (dva stanja ne mogu bit istovjetni ako su razliciti po prihvatljivosti)
+
 
     
 
