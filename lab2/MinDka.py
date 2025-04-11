@@ -9,26 +9,6 @@ isAccepting = {}
 def getGroups(group1, group2, accepting_states, not_accepting_states):
     temp = set([])
 
-def isMaybeSame(state1, state2,accepting_states, not_accepting_states):
-    if AllTranstions[state1] == AllTranstions[state2]:
-        print("ISTI")
-        return True
-    print("AllTranstions[state1][i]", AllTranstions[state1])
-    print("AllTranstions[state2][i]", AllTranstions[state2])
-    for i in range(0,len(AllTranstions[state1])):
-        print(not_accepting_states)
-        if AllTranstions[state1][i] in not_accepting_states and AllTranstions[state2][i] in not_accepting_states:
-            continue
-        elif AllTranstions[state1][i] in accepting_states and AllTranstions[state2][i] in not_accepting_states:
-            return False
-        elif AllTranstions[state1][i] in not_accepting_states and AllTranstions[state2][i] in accepting_states:
-            return False
-        if AllTranstions[state1][i] in accepting_states and AllTranstions[state2][i] in accepting_states:
-            continue
-        else:
-            return False
-    return True
-
 def returnGroups(state1, groups):
     a = []
     for state in AllTranstions[state1]:
