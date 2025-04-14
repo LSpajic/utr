@@ -5,10 +5,10 @@ GREEN='\033[0;32m'
 NC='\033[0m'
 declare -i n=0
 
-for i in {01..20}
+for i in {01..14}
 do
-    input_file="discord_tests/test$i/t.ul"
-    expected_output_file="discord_tests/test$i/t.iz"
+    input_file="tests/test$i/t.ul"
+    expected_output_file="tests/test$i/t.iz"
 
     if [[ -f "$input_file" && -f "$expected_output_file" ]]; then
         python_output=$(python3 MinDka.py < "$input_file")
