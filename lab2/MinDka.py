@@ -190,7 +190,7 @@ def main():
     print(formatOutput1(new_states))
     print(formatOutput1(alphabet_line))
     print(formatOutput1(new_ac_states))
-    print(startState)
+    print(newDict[startState])
     for state in new_states:
         i = 0
         for transtion in alphabet_line:
