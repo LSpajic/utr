@@ -9,6 +9,8 @@ isAccepting = {}
 #def getGroups(group1, group2, accepting_states, not_accepting_states):
 #    temp = set([])
 
+def formatOutput1(states):
+    return ','.join(states)
 def returnGroups(state1, groups):
     a = []
     #print("state1", AllTranstions[state1]) 
@@ -80,7 +82,7 @@ def main():
     temp = set({})
     for state in new_states:
         for transtion in alphabet_line:
-            temp = temp.union(states[(state, transtion)])
+            temp = temp.uniontranstions(states[(state, transtion)])
     new_states = temp - reachable_states
     reachable_states = reachable_states.union(new_states)
     #print("Tu sam")
@@ -95,13 +97,13 @@ def main():
         for transtion in alphabet_line:
             AllTranstions[state].append(states[(state, transtion)])
         #print("AllTranstions[state]", AllTranstions[state])
-    print("-------")
-    print("accepting states")    
-    for state in accepting_states:
-        print(state, "->", AllTranstions[state])
-    print("not accepting states")    
-    for state in not_accepting_states:
-        print(state, "->", AllTranstions[state])
+    #print("-------")
+    #print("accepting states")    
+    #for state in accepting_states:
+    #    print(state, "->", AllTranstions[state])
+    #print("not accepting states")    
+    #for state in not_accepting_states:
+    #    print(state, "->", AllTranstions[state])
     #listaaa = []
     #temp = []
     #acs = list(accepting_states)
@@ -151,6 +153,14 @@ def main():
                     tempArr[Kojim_grupama_pripada] = set([])
                 tempArr[Kojim_grupama_pripada].add(state)
             newGroup.extend(tempArr.values())
+            a = list(tempArr.values())
+            a.sort()
+            #print("tempArr")
+            for x in a:
+                x = list(x)
+                x.sort()
+                for i in x:
+                    newDict[i] = x[0]
 
         if newGroup == groups:
             break
@@ -166,24 +176,40 @@ def main():
 
     for sameSteates in groups:
         sameSteates = sorted(sameSteates)
-        print("Grupe", sameSteates)
+        #print("Grupe", sameSteates)
         if(sameSteates[0] in accepting_states):
             new_ac_states.append(sameSteates[0])
         else:
             new_nc_states.append(sameSteates[0])
         new_states.append(sameSteates[0])
 
-    print("novi stanja")
-    print(new_states)
-    print("novi prihvatljivi")
-    print(new_ac_states)
-    print("novi neprihvatljivi")
-    print(new_nc_states)
+    new_states = sorted(new_states)
+    new_ac_states = sorted(new_ac_states)
 
+
+    print(formatOutput1(new_states))
+    print(formatOutput1(alphabet_line))
+    print(formatOutput1(new_ac_states))
+    print(startState)
+    for state in new_states:
+        i = 0
+        for transtion in alphabet_line:
+            print(state + "," + transtion + "->" + newDict[AllTranstions[state][i]])
+            i = i + 1
+    #print("novi stanja")
+    #print(new_states)
+    #print("novi prihvatljivi")
+    #print(new_ac_states)
+    #print("novi neprihvatljivi")
+    #print(new_nc_states)
+
+    
 
 
     #metoda tablice
     #prvo zic3eri (dva stanja ne mogu bit istovjetni ako su razliciti po prihvatljivosti)
+
+
 
 
     

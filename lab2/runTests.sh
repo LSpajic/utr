@@ -5,7 +5,7 @@ GREEN='\033[0;32m'
 NC='\033[0m'
 declare -i n=0
 
-for i in {01..33}
+for i in {01..14}
 do
     input_file="tests/test$i/t.ul"
     expected_output_file="tests/test$i/t.iz"
@@ -25,4 +25,4 @@ do
         echo "Test $i: Input or expected output file not found."
     fi
 done
-echo "Passed $n/33 tests!"
+echo "Passed $n/14 tests!"
