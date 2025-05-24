@@ -4,6 +4,29 @@ from tabulate import tabulate
 
 states = {}
 
+class Stack:
+   def __init__(self):
+      self.stack = ""
+
+   def push(self, item):
+      self.stack = item + self.stack
+
+   def pop(self):
+      if self.stack:
+         item = self.stack[0]
+         self.stack = self.stack[1:]
+         return item
+      return None
+   def top(self):
+      if self.stack:
+         return self.stack[0]
+      return None
+   def is_empty(self):
+      return len(self.stack) == 0
+   
+   def __str__(self):
+      return self.stack
+   
 def PrintDict():
    headers = ["(State, Symbol, Stack)", "(NextState, NextStack)"]
    rows = [ [str(k), str(v)] for k, v in states.items() ]
