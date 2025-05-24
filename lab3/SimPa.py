@@ -87,12 +87,17 @@ def main():
       while inputCharN < len(inputString):
          inputChar = inputString[inputCharN]
          nextState = states.get((currentState, inputChar, stack.top()))
+         if inputChar == '$':
+            endReached = True
          if nextState is None:
             inputCharN -= 1
             nextState = states.get((currentState, '$', stack.top()))
             if nextState is None:
                if inputChar == '$':
-                  print("0")
+                  if (currentState in accepting_states_line) and endReached:
+                     print("1")
+                  else:
+                     print("0")
                else:
                   print("fail|0")
                flag = 1
@@ -104,7 +109,7 @@ def main():
          inputCharN += 1
 
       if flag == 0:
-         if currentState in accepting_states_line:
+         if (currentState in accepting_states_line) and endReached:
             print("1")
          else:
             print("0")
