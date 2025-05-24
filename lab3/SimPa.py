@@ -25,8 +25,19 @@ class Stack:
       return len(self.stack) == 0
    
    def __str__(self):
-      return self.stack
+      if self.is_empty():
+         return '$'
+      if self.stack == '$':
+         return '$'
+      else:
+         return self.stack
    
+   def add(self, item):
+      self.pop()
+      if item != '$':
+         self.push(item)
+      return self.top()
+
 def PrintDict():
    headers = ["(State, Symbol, Stack)", "(NextState, NextStack)"]
    rows = [ [str(k), str(v)] for k, v in states.items() ]
@@ -53,14 +64,45 @@ def main():
       NextState, NextStog = right.split(',',1)
       states[(currentState, symbol, currentStog)] = (NextState,NextStog)
 
-   print('Stanja: ',states_line)
-   print('Alfabet: ',alphabet_line)
-   print('Stog Alfabet:',stog_alphabet_line)
-   print('Prihvatljiva stanja: ',accepting_states_line)
-   print('Pocetno stanje: ',startState)
-   print('Pocetno stanje stoga: ',startStogState)
-   PrintDict()
-      
+   #print('Ulazni nizovi: ', inputStringsLine)
+   #print('Stanja: ',states_line)
+   #print('Alfabet: ',alphabet_line)
+   #print('Stog Alfabet:',stog_alphabet_line)
+   #print('Prihvatljiva stanja: ',accepting_states_line)
+   #print('Pocetno stanje: ',startState)
+   #print('Pocetno stanje stoga: ',startStogState)
+   #PrintDict()
+   #
+   #print('_______________________________________')
+
+   for inputString in inputStrings:
+      flag = 0
+      nextState = None
+      stack = Stack()
+      stack.push(startStogState)
+      currentState = startState
+      inputString.append('$') 
+      print(currentState + '#' + str(stack) + '|' , end='')
+      for inputChar in inputString:
+         nextState = states.get((currentState, inputChar, stack.top()))
+         if nextState is None:
+            nextState = states.get((currentState, '$', stack.top()))
+            if nextState is None:
+               if inputChar == '$':
+                  print("0")
+               else:
+                  print("fail|0")
+               flag = 1
+               break
+         stack.add(nextState[1])
+         currentState = nextState[0]
+         print(currentState + '#' + str(stack) + '|' , end='')
+
+      if flag == 0:
+         if currentState in accepting_states_line:
+            print("1")
+         else:
+            print("0")
 
 
 if __name__ == "__main__":
