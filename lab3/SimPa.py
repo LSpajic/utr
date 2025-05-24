@@ -83,9 +83,12 @@ def main():
       currentState = startState
       inputString.append('$') 
       print(currentState + '#' + str(stack) + '|' , end='')
-      for inputChar in inputString:
+      inputCharN = 0
+      while inputCharN < len(inputString):
+         inputChar = inputString[inputCharN]
          nextState = states.get((currentState, inputChar, stack.top()))
          if nextState is None:
+            inputCharN -= 1
             nextState = states.get((currentState, '$', stack.top()))
             if nextState is None:
                if inputChar == '$':
@@ -93,10 +96,12 @@ def main():
                else:
                   print("fail|0")
                flag = 1
+
                break
          stack.add(nextState[1])
          currentState = nextState[0]
          print(currentState + '#' + str(stack) + '|' , end='')
+         inputCharN += 1
 
       if flag == 0:
          if currentState in accepting_states_line:

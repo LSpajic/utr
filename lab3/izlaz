@@ -1,0 +1,32 @@
+
+Test 06:
+Expected output:
+qp1#K|q0#NK|q0#K|qp1#K|q0#JK|q0#JK|0
+Your output:
+qp1#K|q0#NK|q0#K|qp1#K|q0#K|qp1#K|0
+
+
+Test 07:
+Expected output:
+qp1#K|q0#NK|q0#K|qp1#K|q0#JK|q0#JK|q0#JJK|q0#JK|q0#K|qp1#K|0
+Your output:
+qp1#K|q0#NK|q0#K|qp1#K|q0#K|qp1#K|q0#NK|q0#NNK|0
+
+Test 16:
+Expected output:
+q0#K|q0#AK|q0#AAK|q1#AAK|q1#AK|q1#K|1
+Your output:
+q0#K|q0#AK|q0#AAK|q1#AAK|q1#AK|q1#K|q1#$|1
+
+Test 18:
+Expected output:
+jdhg#E|uipg#C|mmnn#GO|ggqi#O|bvzz#FO|jdhg#AXAO|jdhg#QAJXAO|jdhg#AJXAO|jdhg#JXAO|uipg#GXAO|mmnn#GXAO|zvri#XAO|ggqi#AO|1
+Your output:
+jdhg#E|uipg#C|mmnn#GO|ggqi#O|bvzz#FO|jdhg#AXAO|jdhg#XAO|fail|0
+
+Test 25:
+Expected output:
+q0#K|q0#AK|q0#AAK|q0#AAAK|q1#AAAK|q1#AAK|q1#AK|q1#K|q2#$|fail|0
+Your output:
+q0#K|q0#AK|q0#AAK|q0#AAAK|q1#AAAK|q1#AAK|q1#AK|q1#K|q2#$|0
+Passed 20/25 tests!
