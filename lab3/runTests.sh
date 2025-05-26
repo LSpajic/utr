@@ -7,8 +7,8 @@ declare -i n=0
 
 for i in {01..25}
 do
-    input_file="tests/test$i/test.in"
-    expected_output_file="tests/test$i/test.out"
+    input_file="tests/test$i/primjer.in"
+    expected_output_file="tests/test$i/primjer.out"
 
     if [[ -f "$input_file" && -f "$expected_output_file" ]]; then
         python_output=$(python3 SimPa.py < "$input_file")
