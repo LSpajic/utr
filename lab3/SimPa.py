@@ -1,6 +1,6 @@
 import sys
 from collections import defaultdict
-from tabulate import tabulate
+#from tabulate import tabulate
 
 states = {}
 
@@ -98,12 +98,11 @@ def main():
          currentState = nextState[0]
          print(currentState + '#' + str(stack) + '|' , end='')
       if flag == 0:
-         nextState = states.get((currentState, '$', stack.top()))
-         if nextState is not None and currentState not in accepting_states_line:
+         while states.get((currentState, '$', stack.top())) != None and currentState not in accepting_states_line:
+            nextState = states.get((currentState, '$', stack.top()))
             stack.add(nextState[1])
             currentState = nextState[0]
             print(currentState + '#' + str(stack) + '|' , end='')
-
          if currentState in accepting_states_line:
             print('1')
          else:
