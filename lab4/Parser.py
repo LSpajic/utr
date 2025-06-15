@@ -1,36 +1,132 @@
-# recursive descent parser for the grammar:
-# S → aAB | bBA
-# A → bC | a
-# B → ccSbc | ϵ
-# C → AA
+##################################################
+# Parser rekurzivnog spusta za gramatiku:        #
+# S → aAB   | bBA                                #
+# A → bC    | a                                  #
+# B → ccSbc | ϵ                                  #
+# C → AA                                         #
+##################################################
 
+simbol = ''
+input_string = ''
+index = 0
+result = ''
 
-def parse_S(input_string, index):
-   pass
-def parse_A(input_string, index):
-   pass
-def parse_B(input_string, index):
-   pass
-def parse_C(input_string, index):
-   pass
-def parse(input_string):
-   index = 0
-   index = parse_S(input_string, index)
-   if index == len(input_string) :
-      return True
-   else:
-      return False
+def next_symbol():
+    global simbol
+    if index < len(input_string):
+        simbol = input_string[index]
+    else:
+        simbol = '$'
+
+def parse_S():
+    global index, result
+    result += 'S'
+    original_index = index
+    original_result = result
+
+    if index < len(input_string) and input_string[index] == 'a':
+        index += 1
+        next_symbol()
+        if parse_A() and parse_B():
+            return True
+        index = original_index
+        result = original_result
+        next_symbol()
+
+    if index < len(input_string) and input_string[index] == 'b':
+        index += 1
+        next_symbol()
+        if parse_B() and parse_A():
+            return True
+        index = original_index
+        result = original_result
+        next_symbol()
+
+    result = original_result[:-1]
+    return False
+
+def parse_A():
+    global index, result
+    result += 'A'
+    original_index = index
+    original_result = result
+
+    if index < len(input_string) and input_string[index] == 'b':
+        index += 1
+        next_symbol()
+        if parse_C():
+            return True
+        index = original_index
+        result = original_result
+        next_symbol()
+
+    if index < len(input_string) and input_string[index] == 'a':
+        index += 1
+        next_symbol()
+        return True
+
+    result = original_result[:-1]
+    return False
+
+def parse_B():
+    global index, result
+    result += 'B'
+    original_index = index
+    original_result = result
+
+    if (
+        index + 1 < len(input_string)
+        and input_string[index] == 'c'
+        and input_string[index + 1] == 'c'
+    ):
+        index += 2
+        next_symbol()
+        if parse_S():
+            if index < len(input_string) and input_string[index] == 'b':
+                index += 1
+                next_symbol()
+                if index < len(input_string) and input_string[index] == 'c':
+                    index += 1
+                    next_symbol()
+                    return True
+        index = original_index
+        result = original_result
+        next_symbol()
+
+    return True
+
+def parse_C():
+    global index, result
+    result += 'C'
+    original_index = index
+    original_result = result
+
+    if parse_A() and parse_A():
+        return True
+
+    index = original_index
+    result = original_result[:-1]
+    next_symbol()
+    return False
+
+def parse():
+    global index
+    index = 0
+    next_symbol()
+    if parse_S() and simbol == '$':
+        return True
+    return False
 
 def main():
-   input_string = input()
-   input_string += '$'  
-   parsed = parse(input_string)
-   if parsed:
-      print("DA")
-   else:
-      print("NE")
-
-
+    global input_string, result
+    input_string = input().strip() + '$'
+    result = ''
+    if parse():
+        print(result)
+        print("DA")
+    else:
+        print(result)
+        print("NE")
 
 if __name__ == "__main__":
-   main()
+    main()
