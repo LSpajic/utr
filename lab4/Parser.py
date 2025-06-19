@@ -10,6 +10,16 @@ simbol = ''
 input_string = ''
 index = 0
 result = ''
+false_result = ''
+
+def match(symbol):
+   global index, simbol
+   if index < len(input_string) and input_string[index] == symbol:
+      index += 1
+      next_symbol()
+      return True
+   return False
+
 
 def next_symbol():
     global simbol
@@ -42,7 +52,6 @@ def parse_S():
         result = original_result
         next_symbol()
 
-    result = original_result[:-1]
     return False
 
 def parse_A():
@@ -65,7 +74,6 @@ def parse_A():
         next_symbol()
         return True
 
-    result = original_result[:-1]
     return False
 
 def parse_B():
@@ -90,7 +98,6 @@ def parse_B():
                     next_symbol()
                     return True
         index = original_index
-        result = original_result
         next_symbol()
 
     return True
@@ -105,7 +112,6 @@ def parse_C():
         return True
 
     index = original_index
-    result = original_result[:-1]
     next_symbol()
     return False
 
