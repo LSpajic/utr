@@ -9,8 +9,7 @@
 simbol = ''
 input_string = ''
 index = 0
-result = ''
-false_result = ''
+result = '' 
 
 def next_symbol():
     global simbol
@@ -23,7 +22,6 @@ def parse_S():
     global index, result
     result += 'S'
     original_index = index
-    original_result = result
 
     if index < len(input_string) and input_string[index] == 'a':
         index += 1
@@ -31,7 +29,6 @@ def parse_S():
         if parse_A() and parse_B():
             return True
         index = original_index
-        result = original_result
         next_symbol()
 
     if index < len(input_string) and input_string[index] == 'b':
@@ -40,7 +37,6 @@ def parse_S():
         if parse_B() and parse_A():
             return True
         index = original_index
-        result = original_result
         next_symbol()
 
     return False
@@ -49,7 +45,6 @@ def parse_A():
     global index, result
     result += 'A'
     original_index = index
-    original_result = result
 
     if index < len(input_string) and input_string[index] == 'b':
         index += 1
@@ -57,7 +52,6 @@ def parse_A():
         if parse_C():
             return True
         index = original_index
-        result = original_result
         next_symbol()
 
     if index < len(input_string) and input_string[index] == 'a':
@@ -71,12 +65,10 @@ def parse_B():
     global index, result
     result += 'B'
     original_index = index
-    original_result = result
 
     if (
         index + 1 < len(input_string)
-        and input_string[index] == 'c'
-        and input_string[index + 1] == 'c'
+        and input_string[index:index+2] == 'cc'
     ):
         index += 2
         next_symbol()
@@ -97,7 +89,6 @@ def parse_C():
     global index, result
     result += 'C'
     original_index = index
-    original_result = result
 
     if parse_A() and parse_A():
         return True
@@ -116,7 +107,7 @@ def parse():
 
 def main():
     global input_string, result
-    input_string = input().strip() + '$'
+    input_string = input().strip()
     result = ''
     if parse():
         print(result)
