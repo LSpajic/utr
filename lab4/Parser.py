@@ -12,15 +12,6 @@ index = 0
 result = ''
 false_result = ''
 
-def match(symbol):
-   global index, simbol
-   if index < len(input_string) and input_string[index] == symbol:
-      index += 1
-      next_symbol()
-      return True
-   return False
-
-
 def next_symbol():
     global simbol
     if index < len(input_string):
