@@ -1,13 +1,14 @@
-# utr
-A collection of intro to computing theory lab coursework
+# Introduction to Theoretical Computer Science
+A collection of Introduction to Theoretical Computer Science homework
+written in python
 
-## First lab
+### First lab
 Simulate nondetermenistic finite automata
-## Second lab
+### Second lab
 Minimizing deterministic finite automata
-## Third lab
+### Third lab
 Simulating pushdown automata
-## Fourth lab
+### Fourth lab
 Recursive descent parser for this grammar:
 ```
  S → aAB   | bBA
